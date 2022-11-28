@@ -1,0 +1,7 @@
+SET SERVEROUTPUT ON;
+
+BEGIN
+sp1;
+END;
+/
+EXECUTE sp1;

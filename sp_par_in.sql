@@ -1,0 +1,31 @@
+-- Los parametroas in no pueden ser modificados
+CREATE OR REPLACE PROCEDURE calc_tax (
+    empl IN employees.employee_id%TYPE,
+    t1   IN NUMBER
+) IS
+    tax NUMBER := 0;
+    sal NUMBER := 0;
+BEGIN
+    IF t1 < 0 OR t1 > 60 THEN
+        raise_application_error(-20000, 'PARAMETROS NO VALIDOS');
+    END IF;
+
+    SELECT
+        salary
+    INTO sal
+    FROM
+        employees
+    WHERE
+        employee_id = empl;
+
+    tax := sal * t1 / 100;
+    dbms_output.put_line('Salario: ' || sal);
+    dbms_output.put_line('TAX: ' || tax);
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('No existe el empleado');
+END;
+/
+
+SET SERVEROUTPUT ON;
+EXECUTE CALC_TAX(10090,200);
